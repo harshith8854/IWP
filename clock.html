@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <p>time:<span id="time"></span></p>
+    <!--set time-->
+    <p>set time:<input type="number" name="" id="nh" min="0" max="24"  value="">
+      <input type="number" name="" id="nm" min="0" max="59"  value=""><input type="number" name="" id="ns" min="0" max="59"  value="">
+      <button type="button" onclick="getvalue();setInterval(settime,1000);" name="button">set</button></p><br>
+      <!--set alarm-->
+      <p>the alarm displays message on this site when alarm is on.</p>
+      <p>set alarm:<input type="number" name="" id="ah" min="0" max="24"  value="">
+        <input type="number" name="" id="am" min="0" max="59"  value=""><input type="number" name="" id="as" min="0" max="59"  value="">
+      <button type="button" onclick="getvalues();setInterval(setalarm,1000);" name="button">set alarm</button>
+      <p id="2"></p>
+  </body>
+  <script type="text/javascript">
+    function clock(){
+      var d=new Date();
+      var t=d.toLocaleTimeString();
+      document.getElementById('time').innerHTML=t;
+    }
+    var int=setInterval(clock,1000);
+    var h1,m1,s1,n1;
+    function getvalue() {
+      var h= document.getElementById('nh').value;
+      var m= document.getElementById('nm').value;
+      var s= document.getElementById('ns').value;
+      h1=h;m1=m;s1=s;
+    }
+    function settime() {
+      clearInterval(int);
+      var d= new Date();
+      d.setHours(h1);
+      d.setMinutes(m1);
+      d.setSeconds(s1);
+      document.getElementById('time').innerHTML=d.toLocaleTimeString();
+      s1=Number(s1)+1;
+      s1.toString();
+    }
+    var h2,m2,s2;
+    function getvalues() {
+      var h= document.getElementById('ah').value;
+      var m= document.getElementById('am').value;
+      var s= document.getElementById('as').value;
+      h2=h;m2=m;s2=s;
+    }
+    /*function setalarm() {
+      var d= new Date();
+      d.setHours(h2);
+      d.setMinutes(m2);
+      d.setSeconds(s2);
+      var u=d.getTime();
+      var d1= new Date();
+      var t=d1.getTime();
+      if (u===t) {
+        document.getElementById('2').innerHTML="hello";
+      }*///THIS ALSO WORKS WHEN ADJUST TIME IS NOT SET
+      function setalarm() {
+        var d= new Date();
+        d.setHours(h2);
+        d.setMinutes(m2);
+        d.setSeconds(s2);
+        var u=d.toLocaleTimeString();
+        var t=document.getElementById('time').innerHTML;
+        if (u==t) {
+          document.getElementById('2').innerHTML='hey alarm is on';
+        }
+
+
+
+
+
+
+    }
+  </script>
+<!--  function setUserName() {
+  let myName = prompt('Please enter your name.');
+  localStorage.setItem('name', myName);
+  myHeading.textContent = 'Mozilla is cool, ' + myName;
+}
+let myButton = document.querySelector('button');
+let myHeading = document.querySelector('h1');
+if(!localStorage.getItem('name')) {
+  setUserName();
+} else {
+  let storedName = localStorage.getItem('name');
+  myHeading.textContent = 'Mozilla is cool, ' + storedName;
+}
+-->
+</html>
