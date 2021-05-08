@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+      function a(){
+        var ir=parseInt(document.getElementById("ir").value);
+        var gd=document.getElementById("a").value;
+        var ga=parseInt(document.getElementById("s").value);
+        var rd=document.getElementById("d").value;
+        var ra=parseInt(document.getElementById("f").value);
+        var rd1=document.getElementById("d1").value;
+        var ra1=parseInt(document.getElementById("f1").value);
+        var rd3=document.getElementById("d3").value;
+        var ra3=parseInt(document.getElementById("f3").value);
+        var rdf=document.getElementById("d2").value;
+        var gdd=new Date(gd);
+        var rdd=new Date(rd);
+        var rdd1=new Date(rd1);
+        var rdd3=new Date(rd3);
+        var rddf=new Date(rdf);
+        var total_duration=parseInt((rddf.getTime()-gdd.getTime())/(1000*60*60*24));
+        var dur_aft_r=parseInt((rddf.getTime()-rdd.getTime())/(1000*60*60*24));
+        var dur_aft_r1=parseInt((rddf.getTime()-rdd1.getTime())/(1000*60*60*24));
+        var dur_aft_r3=parseInt((rddf.getTime()-rdd3.getTime())/(1000*60*60*24));
+        var total_int;
+        var total_get;
+        if(total_duration<=180){
+          total_int=(ga*ir*total_duration)/(30*100);
+          total_get=ga+total_int;
+        }
+        else{
+          var i=total_duration;
+          var int=0;
+          while(i>180){
+            int=(ga*ir*180)/(30*100);
+            ga+=int;
+            i-=180;
+          }
+          total_get=ga+(ga*ir*i)/(30*100);
+        }
+
+        var extra_int_r=cal_int(dur_aft_r,ir,ra);//(ra*ir*dur_aft_r)/(30*100);
+        var extra_int_r1=cal_int(dur_aft_r1,ir,ra1);//(ra1*ir*dur_aft_r1)/(30*100);
+        var extra_int_r3=cal_int(dur_aft_r3,ir,ra3);//(ra3*ir*dur_aft_r3)/(30*100);
+
+        var amt_to_get=total_get-extra_int_r-extra_int_r1-extra_int_r3;
+        document.getElementById("1st").innerHTML="amount to get"+Math.round(amt_to_get)+"\n"+
+        "total to get :"+Math.round(total_get)+"\n"+"extra_int_r : "+Math.round(extra_int_r)+"\n"+"extra_int_r1 : "+Math.round(extra_int_r1)+"\n"+"extra_int_r3 : "+Math.round(extra_int_r3);
+      }
+      function cal_int(dur,ir,ga){
+        if(dur<=180){
+          interest=(ga*ir*dur)/(30*100);
+          total=ga+interest;
+        }
+        else{
+          var i=dur;
+          var int=0;
+          while(i>180){
+            int=(ga*ir*180)/(30*100);
+            ga+=int;
+            i-=180;
+          }
+          total=ga+(ga*ir*i)/(30*100);
+        }
+        if (isNaN(total)) total = 0;
+        return total;
+      }
+      //type of str returns str's datatype
+    </script>
+    <style media="screen">
+      div.a{
+        float:left;
+        width:50%;
+        position:relative;
+      }
+      div.b{
+        padding:10px;
+        border:10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h2>INTEREST CALCULATOR</h2>
+    <div class="b">
+      <div class="a">
+        <p>Given Date</p>
+        <input id="a" type="date" name="" value=""><br>
+        <p>Final Return Date </p>
+        <input id="d2" type="date" name="" value=""><br>
+      </div>
+      <div class="a">
+        <p>Given Amount</p>
+        <input id="s" type="number" name="" value=""><br>
+        <p>Interest Rate</p>
+        <input id="ir" type="number" name="" value=""><br>
+      </div>
+    </div>
+    <div class="b">
+      <h3>Returns</h3>
+      <div class="a">
+        <p>1.return date </p>
+        <input id="d" type="date" style="margin-bottom:10px" name="" value=""><br>
+        <p>2.return date </p>
+        <input id="d1" type="date" style="margin-bottom:10px" name="" value=""><br>
+        <p>3.return date </p>
+        <input id="d3" type="date" style="margin-bottom:10px" name="" value=""><br>
+        <button onclick="a()" type="button" class="btn btn-primary active" style="" name="button">GET THE DATA</button>
+        <pre id="1st"></pre>
+      </div>
+      <div class="a">
+        <p>1.return amount</p>
+        <input id="f" type="number" name="" value=""><br>
+        <p>2.return amount</p>
+        <input id="f1" type="number" name="" value=""><br>
+        <p>3.return amount</p>
+        <input id="f3" type="number" name="" value=""><br>
+      </div>
+    </div>
+  </body>
+</html>
