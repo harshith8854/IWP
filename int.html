@@ -20,6 +20,7 @@
         var rd3=document.getElementById("d3").value;
         var ra3=parseInt(document.getElementById("f3").value);
         var rdf=document.getElementById("d2").value;
+        var mp=parseInt(document.getElementById("mp").value);
         var gdd=new Date(gd);
         var rdd=new Date(rd);
         var rdd1=new Date(rd1);
@@ -31,41 +32,44 @@
         var dur_aft_r3=parseInt((rddf.getTime()-rdd3.getTime())/(1000*60*60*24));
         var total_int;
         var total_get;
-        if(total_duration<=180){
+        if(total_duration<=mp){
           total_int=(ga*ir*total_duration)/(30*100);
           total_get=ga+total_int;
         }
         else{
           var i=total_duration;
           var int=0;
-          while(i>180){
-            int=(ga*ir*180)/(30*100);
+          while(i>mp){
+            int=(ga*ir*mp)/(30*100);
             ga+=int;
-            i-=180;
+            i-=mp;
           }
           total_get=ga+(ga*ir*i)/(30*100);
         }
 
-        var extra_int_r=cal_int(dur_aft_r,ir,ra);//(ra*ir*dur_aft_r)/(30*100);
-        var extra_int_r1=cal_int(dur_aft_r1,ir,ra1);//(ra1*ir*dur_aft_r1)/(30*100);
-        var extra_int_r3=cal_int(dur_aft_r3,ir,ra3);//(ra3*ir*dur_aft_r3)/(30*100);
+        var extra_int_r=cal_int(dur_aft_r,ir,ra,mp);//(ra*ir*dur_aft_r)/(30*100);
+        var extra_int_r1=cal_int(dur_aft_r1,ir,ra1,mp);//(ra1*ir*dur_aft_r1)/(30*100);
+        var extra_int_r3=cal_int(dur_aft_r3,ir,ra3,mp);//(ra3*ir*dur_aft_r3)/(30*100);
 
         var amt_to_get=total_get-extra_int_r-extra_int_r1-extra_int_r3;
-        document.getElementById("1st").innerHTML="amount to get"+Math.round(amt_to_get)+"\n"+
-        "total to get :"+Math.round(total_get)+"\n"+"extra_int_r : "+Math.round(extra_int_r)+"\n"+"extra_int_r1 : "+Math.round(extra_int_r1)+"\n"+"extra_int_r3 : "+Math.round(extra_int_r3);
+        document.getElementById("1st").innerHTML="amount to get/రావాల్సిన మొత్తం : "+Math.round(amt_to_get)+"\n"+"\n"+
+        "total maturity amount : "+Math.round(total_get)+"\t"+"\t"+"total duration : "+total_duration +"\n"+"\n"+
+        "maturity amount of r1 : "+Math.round(extra_int_r)+"\t"+"\t"+"dur_aft_return1 : "+dur_aft_r +"\n"+"\n"+
+        "maturity amount of r2 : "+Math.round(extra_int_r1)+"\t"+"\t"+"dur_aft_return2 : "+dur_aft_r1 +"\n"+"\n"+
+        "maturity amount of r3 : "+Math.round(extra_int_r3)+"\t"+"\t"+"dur_aft_return3 : "+dur_aft_r3;
       }
-      function cal_int(dur,ir,ga){
-        if(dur<=180){
+      function cal_int(dur,ir,ga,mp){
+        if(dur<=mp){
           interest=(ga*ir*dur)/(30*100);
           total=ga+interest;
         }
         else{
           var i=dur;
           var int=0;
-          while(i>180){
-            int=(ga*ir*180)/(30*100);
+          while(i>mp){
+            int=(ga*ir*mp)/(30*100);
             ga+=int;
-            i-=180;
+            i-=mp;
           }
           total=ga+(ga*ir*i)/(30*100);
         }
@@ -75,14 +79,22 @@
       //type of str returns str's datatype
     </script>
     <style media="screen">
+    span{
+      width:400px;
+    }
       div.a{
         float:left;
         width:50%;
-        position:relative;
+        height:280px;
+        border:10px inset;
+        padding:20px;
       }
       div.b{
         padding:10px;
-        border:10px;
+        margin:30px;
+      }
+      div.c{
+        margin-left:30px;
       }
 
     </style>
@@ -91,18 +103,21 @@
     <h2>INTEREST CALCULATOR</h2>
     <div class="b">
       <div class="a">
-        <p>Given Date</p>
+        <p>Given Date/ఇచ్చిన తేదీ</p>
         <input id="a" type="date" name="" value=""><br>
         <p>Final Return Date </p>
         <input id="d2" type="date" name="" value=""><br>
+        <p>Maturity Period/వాయిదా</p>
+        <input id="mp" type="number" name="" value=""><br>
       </div>
       <div class="a">
-        <p>Given Amount</p>
+        <p>Given Amount/ఇచ్చిన మొత్తం</p>
         <input id="s" type="number" name="" value=""><br>
-        <p>Interest Rate</p>
-        <input id="ir" type="number" name="" value=""><br>
+        <p>Interest Rate/వడ్డీ నెలకు</p>
+        <input id="ir" type="number" name="" value="">%<br>
       </div>
     </div>
+
     <div class="b">
       <h3>Returns</h3>
       <div class="a">
@@ -112,8 +127,7 @@
         <input id="d1" type="date" style="margin-bottom:10px" name="" value=""><br>
         <p>3.return date </p>
         <input id="d3" type="date" style="margin-bottom:10px" name="" value=""><br>
-        <button onclick="a()" type="button" class="btn btn-primary active" style="" name="button">GET THE DATA</button>
-        <pre id="1st"></pre>
+
       </div>
       <div class="a">
         <p>1.return amount</p>
@@ -123,6 +137,10 @@
         <p>3.return amount</p>
         <input id="f3" type="number" name="" value=""><br>
       </div>
+    </div>
+    <div class="c">
+      <button onclick="a()" type="button" class="btn btn-primary active" style="" name="button">GET THE DATA</button>
+      <pre id="1st"></pre>
     </div>
   </body>
 </html>
